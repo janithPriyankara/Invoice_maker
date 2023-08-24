@@ -1,4 +1,4 @@
-const { drawText, drawImage, drawGrid, drawTable } = require('./drawUtils');
+const { drawText, drawTable } = require('./drawUtils');
 
 
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
@@ -97,7 +97,7 @@ async function generatePDFInvoice(details, invoiceTemplatePath) {
 
     const pdfBytes = await pdfDoc.save();
 
-    fs.writeFileSync('test_pdf.pdf', pdfBytes);
+    // fs.writeFileSync('test_pdf.pdf', pdfBytes);
     return pdfBytes;
 }
 module.exports = { generatePDFInvoice };
