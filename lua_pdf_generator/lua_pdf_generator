@@ -1,0 +1,24 @@
+const { LuaVM } = require('lua.vm.js');
+
+// Create a new Lua virtual machine
+const vm = new LuaVM();
+
+// Load and execute the Lua script
+const luaScript = `
+-- Lua script goes here
+`;
+
+// Load the script into the virtual machine
+vm.load(luaScript);
+
+// Call the 'generateInvoice' function with appropriate arguments
+const customer = "John Doe";
+const itemList = [
+  { name: "Product 1", price: 10 },
+  { name: "Product 2", price: 20 },
+  { name: "Product 3", price: 30 }
+];
+const invoiceText = vm.call('generateInvoice', customer, itemList);
+
+// Print the generated invoice
+console.log(invoiceText);
