@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: Invoice Maker API
+  version: 1.0.0
+servers:
+  - url: http://localhost:{port}
+    variables:
+      port:
+        default: '2500'
+paths:
+  /generate-invoice:
+    post:
+      summary: Generate an invoice PDF
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceDetails'
+      responses:
+        '201':
+          description: Invoice successfully generated
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: Not implemented endpoint
+      responses:
+        '501':
+          description: Not implemented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  "/*":
+    get:
+      summary: Fallback for undefined routes
+      responses:
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    InvoiceDetails:
+      type: object
+      required:
+        - items
+      properties:
+        customerName:
+          type: string
+        customerAddress:
+          type: string
+        customerTp:
+          type: string
+        customerEmail:
+          type: string
+        invoiceNumber:
+          type: string
+        dateOfInvoice:
+          type: string
+          format: date
+        shipping:
+          type: number
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    Item:
+      type: object
+      required:
+        - description
+        - quantity
+        - unitPrice
+      properties:
+        description:
+          type: string
+        quantity:
+          type: integer
+        unitPrice:
+          type: number
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
